@@ -1,0 +1,13 @@
+Solucja:
+	1. Migracja solucji na .net 5.0;
+	2. GRPC zamiast WCF;
+	3. Entity Framework + sqlite;
+	4. async/await;
+	5. Output na konsoli powinien być wypisywany poprzez NLog, a nie Console.WriteLine();
+	6. Unit testy.
+Budowanie (opcjonalne): 
+	Opracuj skrypt powershellowy, który potrafi: 
+		1. zbudować solucję;
+		2. zareagować, jeśli się nie buduje (np. wypisać to w terminalu);
+		3. zbudowaną solucję umieścić we wskazanym folderze (np. poprzez argument);
+		4. uruchomić unit testy po zbudowaniu solucji i zareagować na faile.
