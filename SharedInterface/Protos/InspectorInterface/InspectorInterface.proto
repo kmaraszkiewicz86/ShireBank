@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package InspectorInterface;
+
+import "InspectorInterfaceMessages.proto";
+
+option csharp_namespace = "SharedInterface.Interfaces.InspectorInterface";
+
+service InspectorInterface {
+        
+        rpc GetFullSummaryAsync (Empty) returns (GetFullSummaryResponse);
+
+        rpc StartInspectionAsync (Empty) returns (Empty);
+
+        rpc FinishInspectionAsync (Empty) returns (Empty);
+}

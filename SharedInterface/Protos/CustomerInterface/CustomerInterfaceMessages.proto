@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package SharedInterface;
+
+option csharp_namespace = "SharedInterface.Interfaces.CustomInterface";
+
+message OpenAccountRequest {
+    string firstName = 1; 
+    string lastName = 2;
+    float debtLimit = 3;
+}
+
+message OpenAccountResponse {
+    uint32 accountId = 1;
+}
+
+message WithdrawRequest {
+    uint32 account = 1; 
+    float amount = 2;
+}
+
+message WithdrawResponse {
+    float amount = 1;
+}
+
+message DepositRequest {
+    uint32 account = 1; 
+    float amount = 2;
+}
+
+message GetHistoryRequest {
+    uint32 account = 1;
+}
+
+message GetHistoryResponse {
+    string bankHistory = 1;
+}
+
+message CloseAccountRequest {
+    uint32 account = 1;
+}
+
+message CloseAccountResponse {
+    bool finishedWitSuccess = 1;
+}
+
+message Empty {
+
+}

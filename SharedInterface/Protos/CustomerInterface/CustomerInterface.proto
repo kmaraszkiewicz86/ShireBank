@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package SharedInterface;
+
+option csharp_namespace = "SharedInterface.Interfaces.CustomInterface";
+
+import "CustomerInterfaceMessages.proto";
+
+service CustomerInterface {
+        rpc OpenAccountAsync ( OpenAccountRequest ) returns ( OpenAccountResponse );
+
+        rpc WithdrawAsync ( WithdrawRequest ) returns ( WithdrawResponse );
+
+        rpc DepositAsync ( DepositRequest ) returns ( Empty );
+
+        rpc GetHistoryAsync ( GetHistoryRequest ) returns ( GetHistoryResponse );
+
+        rpc CloseAccountAsync ( CloseAccountRequest ) returns ( CloseAccountResponse );
+}

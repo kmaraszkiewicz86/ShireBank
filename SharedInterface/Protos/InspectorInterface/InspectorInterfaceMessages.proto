@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package InspectorInterface;
+
+option csharp_namespace = "SharedInterface.Interfaces.InspectorInterface";
+
+message Empty {
+
+}
+
+message GetFullSummaryResponse {
+    string summary = 1;
+}

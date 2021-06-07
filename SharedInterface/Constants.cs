@@ -8,9 +8,12 @@ namespace SharedInterface
 {
     public class Constants
     {
+        public const string BankBaseAddressUrl = "http://localhost:6999";
+
         public const string BankBaseAddress = "http://localhost:6999";
         public const string ServiceName = "ShireBank";
 
-        public static string FullBankAddress { get { return BankBaseAddress + "/" + ServiceName; } }
+        public static string FullBankAddress => $"{BankBaseAddress}/{ServiceName}";
+        public static Uri BankBaseAddressUri => new Uri(BankBaseAddress);
     } 
 }
