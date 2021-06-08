@@ -4,7 +4,7 @@ using Repository.Services.Interfaces;
 
 namespace Repository.Services.Implementations
 {
-    public class AccountHistoryService : IAccountHistoryService
+    public sealed class AccountHistoryService : IAccountHistoryService
     {
         public async Task<ResultWithModel<string>> GetHistoryAsync(GetHistoryRequestModel getHistoryRequestModel)
         {

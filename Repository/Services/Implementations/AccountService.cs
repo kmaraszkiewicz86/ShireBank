@@ -5,7 +5,7 @@ using Repository.Services.Interfaces;
 
 namespace Repository.Services.Implementations
 {
-    public class AccountService : IAccountService
+    public sealed class AccountService : IAccountService
     {
         private readonly ShireBankDbContext _shireBankDbContext;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Repository.Core;
-using ShireBank.Services.Builders;
+using ShireBank.Services.Implementations.Builders;
 
 namespace ShireBank.Helper
 {

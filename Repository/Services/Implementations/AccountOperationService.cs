@@ -4,7 +4,7 @@ using Repository.Services.Interfaces;
 
 namespace Repository.Services.Implementations
 {
-    public class AccountOperationService : IAccountOperationService
+    public sealed class AccountOperationService : IAccountOperationService
     {
         public async Task<Result> DepositAsync(DepositRequestModel depositRequestModel)
         {
