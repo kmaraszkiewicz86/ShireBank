@@ -1,13 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerTest", "CustomerTest\CustomerTest.csproj", "{A0A2E762-8C4A-4421-8F03-8625D02E38E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerTest", "CustomerTest\CustomerTest.csproj", "{A0A2E762-8C4A-4421-8F03-8625D02E38E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedInterface", "SharedInterface\SharedInterface.csproj", "{90607FB7-EF68-49FA-A485-F30DCDD0B970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedInterface", "SharedInterface\SharedInterface.csproj", "{90607FB7-EF68-49FA-A485-F30DCDD0B970}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShireBank", "ShireBank\ShireBank.csproj", "{2A12897E-A2CF-46D7-BB2F-BA7DED05507B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShireBank", "ShireBank\ShireBank.csproj", "{2A12897E-A2CF-46D7-BB2F-BA7DED05507B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31D8E512-B7D3-49AF-B58F-6DB900850F07}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		README.txt = README.txt
+		Tasks.txt = Tasks.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{B78C9EC8-2BC8-4918-8184-9D30141AD71D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{10F1F048-5C1C-401C-BDBC-FD9FC478B88C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +38,19 @@ Global
 		{2A12897E-A2CF-46D7-BB2F-BA7DED05507B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A12897E-A2CF-46D7-BB2F-BA7DED05507B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A12897E-A2CF-46D7-BB2F-BA7DED05507B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B78C9EC8-2BC8-4918-8184-9D30141AD71D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B78C9EC8-2BC8-4918-8184-9D30141AD71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B78C9EC8-2BC8-4918-8184-9D30141AD71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B78C9EC8-2BC8-4918-8184-9D30141AD71D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F1F048-5C1C-401C-BDBC-FD9FC478B88C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F1F048-5C1C-401C-BDBC-FD9FC478B88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F1F048-5C1C-401C-BDBC-FD9FC478B88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F1F048-5C1C-401C-BDBC-FD9FC478B88C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58925FCD-67B2-477D-802E-BDB968A46024}
 	EndGlobalSection
 EndGlobal

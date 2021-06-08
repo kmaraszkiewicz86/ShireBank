@@ -17,40 +17,40 @@ namespace CustomerTest
 
                 // Customer 1
                 new Thread(() =>
-               {
-                   Thread.Sleep(TimeSpan.FromSeconds(10));
-
-                   var accountId = customer.OpenAccount("Henrietta", "Baggins", 100.0f);
-                   if (accountId == null)
                    {
-                       throw new Exception("Failed to open account");
-                   }
+                       Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                   customer.Deposit(accountId.Value, 500.0f);
+                       var accountId = customer.OpenAccount("Henrietta", "Baggins", 100.0f);
+                       if (accountId == null)
+                       {
+                           throw new Exception("Failed to open account");
+                       }
 
-                   Thread.Sleep(TimeSpan.FromSeconds(10));
+                       customer.Deposit(accountId.Value, 500.0f);
 
-                   customer.Deposit(accountId.Value, 500.0f);
-                   customer.Deposit(accountId.Value, 1000.0f);
+                       Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                   if (2000.0f != customer.Withdraw(accountId.Value, 2000.0f))
-                   {
-                       throw new Exception("Can't withdraw a valid amount");
-                   }
+                       customer.Deposit(accountId.Value, 500.0f);
+                       customer.Deposit(accountId.Value, 1000.0f);
 
-                   lock (historyPrintLock)
-                   {
-                       Console.WriteLine("=== Customer 1 ===");
-                       Console.Write(customer.GetHistory(accountId.Value));
-                   }
+                       if (2000.0f != customer.Withdraw(accountId.Value, 2000.0f))
+                       {
+                           throw new Exception("Can't withdraw a valid amount");
+                       }
 
-                   if (!customer.CloseAccount(accountId.Value))
-                   {
-                       throw new Exception("Failed to close account"); ;
-                   }
+                       lock (historyPrintLock)
+                       {
+                           Console.WriteLine("=== Customer 1 ===");
+                           Console.Write(customer.GetHistory(accountId.Value));
+                       }
 
-                   endOfWorkEvents[0].Set();
-               }).Start();
+                       if (!customer.CloseAccount(accountId.Value))
+                       {
+                           throw new Exception("Failed to close account"); ;
+                       }
+
+                       endOfWorkEvents[0].Set();
+                   }).Start();
 
                 // Customer 2
                 new Thread(() =>
