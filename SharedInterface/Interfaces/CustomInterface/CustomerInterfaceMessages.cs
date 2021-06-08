@@ -26,22 +26,22 @@ namespace SharedInterface.Interfaces.CustomInterface {
           string.Concat(
             "Ch9DdXN0b21lckludGVyZmFjZU1lc3NhZ2VzLnByb3RvEg9TaGFyZWRJbnRl",
             "cmZhY2UiTAoST3BlbkFjY291bnRSZXF1ZXN0EhEKCWZpcnN0TmFtZRgBIAEo",
-            "CRIQCghsYXN0TmFtZRgCIAEoCRIRCglkZWJ0TGltaXQYAyABKAIiKAoTT3Bl",
-            "bkFjY291bnRSZXNwb25zZRIRCglhY2NvdW50SWQYASABKA0iMgoPV2l0aGRy",
-            "YXdSZXF1ZXN0Eg8KB2FjY291bnQYASABKA0SDgoGYW1vdW50GAIgASgCIiIK",
-            "EFdpdGhkcmF3UmVzcG9uc2USDgoGYW1vdW50GAEgASgCIjEKDkRlcG9zaXRS",
-            "ZXF1ZXN0Eg8KB2FjY291bnQYASABKA0SDgoGYW1vdW50GAIgASgCIiQKEUdl",
-            "dEhpc3RvcnlSZXF1ZXN0Eg8KB2FjY291bnQYASABKA0iKQoSR2V0SGlzdG9y",
-            "eVJlc3BvbnNlEhMKC2JhbmtIaXN0b3J5GAEgASgJIiYKE0Nsb3NlQWNjb3Vu",
-            "dFJlcXVlc3QSDwoHYWNjb3VudBgBIAEoDSIyChRDbG9zZUFjY291bnRSZXNw",
-            "b25zZRIaChJmaW5pc2hlZFdpdFN1Y2Nlc3MYASABKAgiBwoFRW1wdHlCLaoC",
-            "KlNoYXJlZEludGVyZmFjZS5JbnRlcmZhY2VzLkN1c3RvbUludGVyZmFjZWIG",
-            "cHJvdG8z"));
+            "CRIQCghsYXN0TmFtZRgCIAEoCRIRCglkZWJ0TGltaXQYAyABKAIiRAoTT3Bl",
+            "bkFjY291bnRSZXNwb25zZRIRCglhY2NvdW50SWQYASABKA0SGgoSZmluaXNo",
+            "ZWRXaXRTdWNjZXNzGAIgASgIIjIKD1dpdGhkcmF3UmVxdWVzdBIPCgdhY2Nv",
+            "dW50GAEgASgNEg4KBmFtb3VudBgCIAEoAiIiChBXaXRoZHJhd1Jlc3BvbnNl",
+            "Eg4KBmFtb3VudBgBIAEoAiIxCg5EZXBvc2l0UmVxdWVzdBIPCgdhY2NvdW50",
+            "GAEgASgNEg4KBmFtb3VudBgCIAEoAiIkChFHZXRIaXN0b3J5UmVxdWVzdBIP",
+            "CgdhY2NvdW50GAEgASgNIikKEkdldEhpc3RvcnlSZXNwb25zZRITCgtiYW5r",
+            "SGlzdG9yeRgBIAEoCSImChNDbG9zZUFjY291bnRSZXF1ZXN0Eg8KB2FjY291",
+            "bnQYASABKA0iMgoUQ2xvc2VBY2NvdW50UmVzcG9uc2USGgoSZmluaXNoZWRX",
+            "aXRTdWNjZXNzGAEgASgIIgcKBUVtcHR5Qi2qAipTaGFyZWRJbnRlcmZhY2Uu",
+            "SW50ZXJmYWNlcy5DdXN0b21JbnRlcmZhY2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::SharedInterface.Interfaces.CustomInterface.OpenAccountRequest), global::SharedInterface.Interfaces.CustomInterface.OpenAccountRequest.Parser, new[]{ "FirstName", "LastName", "DebtLimit" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::SharedInterface.Interfaces.CustomInterface.OpenAccountResponse), global::SharedInterface.Interfaces.CustomInterface.OpenAccountResponse.Parser, new[]{ "AccountId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SharedInterface.Interfaces.CustomInterface.OpenAccountResponse), global::SharedInterface.Interfaces.CustomInterface.OpenAccountResponse.Parser, new[]{ "AccountId", "FinishedWitSuccess" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SharedInterface.Interfaces.CustomInterface.WithdrawRequest), global::SharedInterface.Interfaces.CustomInterface.WithdrawRequest.Parser, new[]{ "Account", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SharedInterface.Interfaces.CustomInterface.WithdrawResponse), global::SharedInterface.Interfaces.CustomInterface.WithdrawResponse.Parser, new[]{ "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SharedInterface.Interfaces.CustomInterface.DepositRequest), global::SharedInterface.Interfaces.CustomInterface.DepositRequest.Parser, new[]{ "Account", "Amount" }, null, null, null, null),
@@ -330,6 +330,7 @@ namespace SharedInterface.Interfaces.CustomInterface {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public OpenAccountResponse(OpenAccountResponse other) : this() {
       accountId_ = other.accountId_;
+      finishedWitSuccess_ = other.finishedWitSuccess_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -349,6 +350,17 @@ namespace SharedInterface.Interfaces.CustomInterface {
       }
     }
 
+    /// <summary>Field number for the "finishedWitSuccess" field.</summary>
+    public const int FinishedWitSuccessFieldNumber = 2;
+    private bool finishedWitSuccess_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool FinishedWitSuccess {
+      get { return finishedWitSuccess_; }
+      set {
+        finishedWitSuccess_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as OpenAccountResponse);
@@ -363,6 +375,7 @@ namespace SharedInterface.Interfaces.CustomInterface {
         return true;
       }
       if (AccountId != other.AccountId) return false;
+      if (FinishedWitSuccess != other.FinishedWitSuccess) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -370,6 +383,7 @@ namespace SharedInterface.Interfaces.CustomInterface {
     public override int GetHashCode() {
       int hash = 1;
       if (AccountId != 0) hash ^= AccountId.GetHashCode();
+      if (FinishedWitSuccess != false) hash ^= FinishedWitSuccess.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -390,6 +404,10 @@ namespace SharedInterface.Interfaces.CustomInterface {
         output.WriteRawTag(8);
         output.WriteUInt32(AccountId);
       }
+      if (FinishedWitSuccess != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(FinishedWitSuccess);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -403,6 +421,10 @@ namespace SharedInterface.Interfaces.CustomInterface {
         output.WriteRawTag(8);
         output.WriteUInt32(AccountId);
       }
+      if (FinishedWitSuccess != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(FinishedWitSuccess);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -414,6 +436,9 @@ namespace SharedInterface.Interfaces.CustomInterface {
       int size = 0;
       if (AccountId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(AccountId);
+      }
+      if (FinishedWitSuccess != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -428,6 +453,9 @@ namespace SharedInterface.Interfaces.CustomInterface {
       }
       if (other.AccountId != 0) {
         AccountId = other.AccountId;
+      }
+      if (other.FinishedWitSuccess != false) {
+        FinishedWitSuccess = other.FinishedWitSuccess;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -447,6 +475,10 @@ namespace SharedInterface.Interfaces.CustomInterface {
             AccountId = input.ReadUInt32();
             break;
           }
+          case 16: {
+            FinishedWitSuccess = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -463,6 +495,10 @@ namespace SharedInterface.Interfaces.CustomInterface {
             break;
           case 8: {
             AccountId = input.ReadUInt32();
+            break;
+          }
+          case 16: {
+            FinishedWitSuccess = input.ReadBool();
             break;
           }
         }

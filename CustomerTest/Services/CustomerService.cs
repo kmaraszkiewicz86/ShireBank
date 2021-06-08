@@ -14,7 +14,6 @@ namespace CustomerTest.Services
         {
             _channel = GrpcChannel.ForAddress(fullBankAddress);
             _customerInterfaceClient = new CustomerInterfaceClient(_channel);
-
         }
 
         public uint? OpenAccount(string firstName, string lastName, float debtLimit)
