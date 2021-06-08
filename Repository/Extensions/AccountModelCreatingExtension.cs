@@ -7,7 +7,7 @@ namespace Repository.Extensions
     {
         public static void InitializeAccountModel(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().ToTable("Accounts", "dbo");
+            modelBuilder.Entity<Account>().ToTable("Accounts");
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.HasKey(e => e.AccountId);

@@ -7,7 +7,7 @@ namespace Repository.Extensions
     {
         public static void InitializeCustomerModel(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>().ToTable("Customers", "dbo");
+            modelBuilder.Entity<Customer>().ToTable("Customers");
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasKey(e => e.CustomerId);

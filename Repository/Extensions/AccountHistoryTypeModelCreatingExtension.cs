@@ -7,7 +7,7 @@ namespace Repository.Extensions
     {
         public static void InitializeAccountHistoryTypeModel(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AccountHistoryType>().ToTable("AccountHistoryTypes", "dbo");
+            modelBuilder.Entity<AccountHistoryType>().ToTable("AccountHistoryTypes");
             modelBuilder.Entity<AccountHistoryType>(entity =>
             {
                 entity.HasKey(e => e.AccountHistoryTypeId);
