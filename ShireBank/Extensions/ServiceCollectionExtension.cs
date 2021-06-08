@@ -22,7 +22,7 @@ namespace ShireBank.Extensions
                  {
                      options.MigrationsAssembly(Assembly.GetAssembly(typeof(ShireBankDbContext)).FullName);
                  });
-            });
+            }, ServiceLifetime.Transient);
 
             serviceCollection.AddScoped<IAccountService, AccountService>();
             serviceCollection.AddScoped<IAccountOperationService, AccountOperationService>();

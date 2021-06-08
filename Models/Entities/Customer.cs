@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Models.Entities
 {
@@ -9,11 +8,9 @@ namespace Models.Entities
         public int CustomerId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
-        public string Surname { get; set; }
-
-        public ICollection<Account> Accounts { get; set; }
+        public string LastName { get; set; }
     }
 }

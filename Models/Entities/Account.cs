@@ -6,10 +6,13 @@ namespace Models.Entities
     public class Account
     {
         [Key]
-        public int AccountId { get; set; }
+        public uint AccountId { get; set; }
 
         [Required]
-        public decimal Amount { get; set; }
+        public float Amount { get; set; }
+
+        [Required]
+        public float DebitLimit { get; set; }
 
         [Required]
         public Customer Customer { get; set; }

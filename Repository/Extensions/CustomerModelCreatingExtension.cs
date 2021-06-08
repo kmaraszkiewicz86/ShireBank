@@ -13,7 +13,7 @@ namespace Repository.Extensions
                 entity.HasKey(e => e.CustomerId);
                 entity.Property(e => e.CustomerId).ValueGeneratedOnAdd();
 
-                entity.HasIndex(e => new { e.Name, e.Surname }).IsUnique();
+                entity.HasIndex(e => new { e.FirstName, e.LastName }).IsUnique();
             });
         }
     }
