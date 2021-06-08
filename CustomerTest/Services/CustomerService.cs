@@ -1,19 +1,16 @@
-﻿using System;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using SharedInterface.Interfaces.CustomInterface;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
 
 namespace CustomerTest.Services
 {
-    public class CustomerService : IDisposable
+    public class CustomerService
     {
-        private readonly GrpcChannel _channel;
         private readonly CustomerInterfaceClient _customerInterfaceClient;
 
-        public CustomerService(string fullBankAddress)
+        public CustomerService(GrpcChannel channel)
         {
-            _channel = GrpcChannel.ForAddress(fullBankAddress);
-            _customerInterfaceClient = new CustomerInterfaceClient(_channel);
+            _customerInterfaceClient = new CustomerInterfaceClient(channel);
         }
 
         public uint? OpenAccount(string firstName, string lastName, float debtLimit)
@@ -27,7 +24,7 @@ namespace CustomerTest.Services
 
             OpenAccountResponse response = _customerInterfaceClient.OpenAccountAsync(request);
 
-            return response.AccountId;
+            return response.FinishedWitSuccess ? response.AccountId : null;
         }
 
         public void Deposit(uint account, float amount)
@@ -76,11 +73,6 @@ namespace CustomerTest.Services
             CloseAccountResponse response = _customerInterfaceClient.CloseAccountAsync(request);
 
             return response.FinishedWitSuccess;
-        }
-
-        public void Dispose()
-        {
-            _channel?.Dispose();
         }
     }
 }

@@ -5,6 +5,7 @@ using Repository.Core;
 using Repository.Services.Implementations;
 using Repository.Services.Interfaces;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
+using static SharedInterface.Interfaces.InspectorInterface.InspectorInterface;
 
 namespace ShireBank.Extensions
 {
@@ -30,6 +31,7 @@ namespace ShireBank.Extensions
         public static IServiceCollection AddGrpcServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<CustomerInterfaceBase, CustomerServiceHost>();
+            serviceCollection.AddScoped<InspectorInterfaceBase, InspectorServiceHost>();
 
             return serviceCollection;
         }

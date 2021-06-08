@@ -1,11 +1,13 @@
 ﻿using System;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 using SharedInterface;
 using SharedInterface.Interfaces.CustomInterface;
 using SharedInterface.Interfaces.InspectorInterface;
+using ShireBank.Helper;
 using ShireBank.Services.Builders;
-using Microsoft.Extensions.DependencyInjection;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
+using static SharedInterface.Interfaces.InspectorInterface.InspectorInterface;
 
 namespace ShireBank
 {
@@ -17,15 +19,15 @@ namespace ShireBank
                 .InitializeRequiredServices()
                 .Build();
 
-            var customerInterfaceBase = HostingBuilder.ServiceProvider.GetService<CustomerInterfaceBase>();
+            DatabaseCreatorHelper.CreateDatabase();
 
             Server server = new Server
             {
                 Ports = { new ServerPort(Constants.BankBaseAddressUri.Host, Constants.BankBaseAddressUri.Port, ServerCredentials.Insecure) },
                 Services =
                 {
-                    InspectorInterface.BindService(new InspectorServiceHost()),
-                    CustomerInterface.BindService(customerInterfaceBase)
+                    InspectorInterface.BindService(HostingBuilder.ServiceProvider.GetService<InspectorInterfaceBase>()),
+                    CustomerInterface.BindService(HostingBuilder.ServiceProvider.GetService<CustomerInterfaceBase>())
                 }
             };
 

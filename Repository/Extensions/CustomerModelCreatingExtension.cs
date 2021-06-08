@@ -11,6 +11,8 @@ namespace Repository.Extensions
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasKey(e => e.CustomerId);
+                entity.Property(e => e.CustomerId).ValueGeneratedOnAdd();
+
                 entity.HasIndex(e => new { e.Name, e.Surname }).IsUnique();
             });
         }

@@ -11,6 +11,7 @@ namespace Repository.Extensions
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.HasKey(e => e.AccountId);
+                entity.Property(e => e.AccountId).ValueGeneratedOnAdd();
             });
         }
     }

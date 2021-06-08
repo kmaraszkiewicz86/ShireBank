@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using CustomerTest.Services;
+using Grpc.Net.Client;
 using SharedInterface;
 
 namespace CustomerTest
@@ -9,7 +10,7 @@ namespace CustomerTest
     {
         static void Main(string[] args)
         {
-            using (var customer = new CustomerService(Constants.FullBankAddress))
+            using (GrpcChannel channel = GrpcChannel.ForAddress(Constants.FullBankAddress))
             {
                 ManualResetEvent[] endOfWorkEvents = { new ManualResetEvent(false), new ManualResetEvent(false), new ManualResetEvent(false) };
 
@@ -18,6 +19,8 @@ namespace CustomerTest
                 // Customer 1
                 new Thread(() =>
                    {
+                       var customer = new CustomerService(channel);
+
                        Thread.Sleep(TimeSpan.FromSeconds(10));
 
                        var accountId = customer.OpenAccount("Henrietta", "Baggins", 100.0f);
@@ -55,6 +58,8 @@ namespace CustomerTest
                 // Customer 2
                 new Thread(() =>
                {
+                   var customer = new CustomerService(channel);
+
                    var accountId = customer.OpenAccount("Barbara", "Tuk", 50.0f);
                    if (accountId == null)
                    {
@@ -107,6 +112,8 @@ namespace CustomerTest
                 // Customer 3
                 new Thread(() =>
                {
+                   var customer = new CustomerService(channel);
+
                    var accountId = customer.OpenAccount("Gandalf", "Grey", 10000.0f);
                    if (accountId == null)
                    {

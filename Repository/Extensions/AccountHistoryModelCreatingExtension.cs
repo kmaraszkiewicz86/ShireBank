@@ -11,6 +11,8 @@ namespace Repository.Extensions
             modelBuilder.Entity<AccountHistory>(entity =>
             {
                 entity.HasKey(e => e.AccountHistoryId);
+                entity.Property(e => e.AccountHistoryId).ValueGeneratedOnAdd();
+
                 entity.Property(e => e.HistoryDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
         }

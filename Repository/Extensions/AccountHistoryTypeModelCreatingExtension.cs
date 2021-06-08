@@ -11,6 +11,8 @@ namespace Repository.Extensions
             modelBuilder.Entity<AccountHistoryType>(entity =>
             {
                 entity.HasKey(e => e.AccountHistoryTypeId);
+                entity.Property(e => e.AccountHistoryTypeId).ValueGeneratedOnAdd();
+
                 entity.HasIndex(e => e.Name).IsUnique();
             });
 
@@ -21,9 +23,9 @@ namespace Repository.Extensions
         {
             modelBuilder.Entity<AccountHistoryType>().HasData(new AccountHistoryType[]
             {
-                new AccountHistoryType { Name = "OpenAccount" },
-                new AccountHistoryType { Name = "Deposit" },
-                new AccountHistoryType { Name = "Withdraw" }
+                new AccountHistoryType { AccountHistoryTypeId = 1, Name = "OpenAccount" },
+                new AccountHistoryType { AccountHistoryTypeId = 2, Name = "Deposit" },
+                new AccountHistoryType { AccountHistoryTypeId = 3, Name = "Withdraw" }
             });
         }
     }

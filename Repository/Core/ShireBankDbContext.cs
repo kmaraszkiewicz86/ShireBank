@@ -13,7 +13,12 @@ namespace Repository.Core
 
         public ShireBankDbContext(DbContextOptions options) : base(options)
         {
+            
+        }
 
+        public void CreateDatabaseIfNotExists()
+        {
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
