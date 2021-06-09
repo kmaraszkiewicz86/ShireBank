@@ -23,6 +23,7 @@ namespace Repository.Services.Implementations
         {
             List<AccountHistory> accountHistories = await _shireBankDbContext.AccountHistories
                 .Include(a => a.Account)
+                .ThenInclude(a => a.Customer)
                 .Include(a => a.AccountHistoryType)
                 .Where(a => a.Account.AccountId == getHistoryRequestModel.Account)
                 .OrderBy(a => a.HistoryDate)

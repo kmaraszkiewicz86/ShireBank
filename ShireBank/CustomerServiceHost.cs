@@ -7,6 +7,7 @@ using SharedInterface.Interfaces.CustomInterface;
 using ShireBank.Services.Implementations.Builders;
 using Microsoft.Extensions.DependencyInjection;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
+using Services.Services.Interfaces;
 
 namespace ShireBank
 {
@@ -16,13 +17,13 @@ namespace ShireBank
 
         private IAccountOperationService _accountOperationService;
 
-        private IAccountHistoryService _accountHistoryService;
+        private IAccountHistoryFasade _accountHistoryFasade;
 
         public void InitializeServices()
         {
             _accountService = HostingBuilder.ServiceProvider.GetService<IAccountService>();
             _accountOperationService = HostingBuilder.ServiceProvider.GetService<IAccountOperationService>();
-            _accountHistoryService = HostingBuilder.ServiceProvider.GetService<IAccountHistoryService>();
+            _accountHistoryFasade = HostingBuilder.ServiceProvider.GetService<IAccountHistoryFasade>();
         }
 
         public override async Task<OpenAccountResponse> OpenAccountAsync(OpenAccountRequest request, ServerCallContext context)
@@ -56,9 +57,7 @@ namespace ShireBank
         {
             InitializeServices();
 
-            //ResultWithModel<string>  result = await _accountHistoryService.GetHistoryAsync(request.ToGetHistoryRequestModel());
-
-            return new GetHistoryResponse { BankHistory = string.Empty };// result.ReturnType };
+            return new GetHistoryResponse { BankHistory = await _accountHistoryFasade.GetAccountHistoryAsync(request.ToGetHistoryRequestModel()) };
         }
 
         public override async Task<CloseAccountResponse> CloseAccountAsync(CloseAccountRequest request, ServerCallContext context)

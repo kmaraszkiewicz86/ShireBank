@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
     <ProjectReference Include="..\SharedInterface\SharedInterface.csproj" />
   </ItemGroup>
 

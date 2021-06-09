@@ -2,9 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using Repository.Core;
 using Repository.Services.Implementations;
 using Repository.Services.Interfaces;
+using Services.Services.Implementations;
+using Services.Services.Interfaces;
 using ShireBank.Services.Implementations;
 using ShireBank.Services.Interfaces;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
@@ -41,11 +45,35 @@ namespace ShireBank.Extensions
             return serviceCollection;
         }
 
-        public static IServiceCollection AddLoggers(this IServiceCollection serviceCollection, IConfiguration config)
+        public static IServiceCollection AddLoggers(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ILoggerService, LoggerService>();
 
             return serviceCollection;
+        }
+
+        public static IServiceCollection AddFasades(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IAccountHistoryFasade, AccountHistoryFasade>();
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddServices(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IAccountHistoryFormaterService, AccountHistoryFormaterService>();
+
+            return serviceCollection;
+        }
+
+        public static void InitializeNlog(this IServiceCollection serviceCollection, IConfiguration configuration)
+        {
+            serviceCollection.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.ClearProviders();
+                loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+                loggingBuilder.AddNLog(configuration);
+            });
         }
     }
 }

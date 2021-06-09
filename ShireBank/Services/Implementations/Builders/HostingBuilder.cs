@@ -32,15 +32,10 @@ namespace ShireBank.Services.Implementations.Builders
             serviceCollection
                 .AddDbServices()
                 .AddGrpcServices()
-                .AddLoggers(configuration);
-
-            serviceCollection.AddLogging(loggingBuilder =>
-            {
-                // configure Logging with NLog
-                loggingBuilder.ClearProviders();
-                loggingBuilder.SetMinimumLevel(LogLevel.Trace);
-                loggingBuilder.AddNLog(configuration);
-            });
+                .AddServices()
+                .AddFasades()
+                .AddLoggers()
+                .InitializeNlog(configuration);
         }
     }
 }
