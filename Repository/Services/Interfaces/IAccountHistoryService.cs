@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Models.Entities;
 using Models.Enums;
 using Models.Models;
+using Repository.Core;
 
 namespace Repository.Services.Interfaces
 {
@@ -10,6 +11,6 @@ namespace Repository.Services.Interfaces
     {
         Task<ResultWithModel<List<AccountHistory>>> GetHistoryAsync(GetHistoryRequestModel getHistoryRequestModel);
 
-        Task AddHistoryAsync(AccountHistoryTypeOperation accountHistoryTypeOperation, Account account, float amountOfFunds);
+        Task AddHistoryAsync(ShireBankDbContext shireBankDbContext, AccountHistoryTypeOperation accountHistoryTypeOperation, Account account, float amountOfFunds);
     }
 }

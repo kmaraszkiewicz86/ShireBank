@@ -14,12 +14,14 @@ namespace Repository.Services.Implementations
 
         private readonly IAccountHistoryService _accountHistoryService;
 
-        public AccountOperationService(ShireBankDbContext shireBankDbContext, 
+        public AccountOperationService(ShireBankDbContext shireBankDbContext,
             IAccountHistoryService accountHistoryService)
         {
             _shireBankDbContext = shireBankDbContext;
             _accountHistoryService = accountHistoryService;
         }
+
+        private static object _locker = new object();
 
         public async Task<Result> DepositAsync(DepositRequestModel depositRequestModel)
         {
@@ -28,11 +30,13 @@ namespace Repository.Services.Implementations
             if (account == null)
                 return new Result(false);
 
-            account.Amount += depositRequestModel.Amount;
+            lock (_locker)
+            {
+                account.Amount += depositRequestModel.Amount;
+                _shireBankDbContext.Update(account);
+            }
 
-            _shireBankDbContext.Update(account);
-
-            await _accountHistoryService.AddHistoryAsync(AccountHistoryTypeOperation.Deposit, account, depositRequestModel.Amount);
+            await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Deposit, account, depositRequestModel.Amount);
 
             await _shireBankDbContext.SaveChangesAsync();
 
@@ -52,7 +56,7 @@ namespace Repository.Services.Implementations
 
             _shireBankDbContext.Update(account);
 
-            await _accountHistoryService.AddHistoryAsync(AccountHistoryTypeOperation.Withdraw, account, fundsToGet);
+            await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Withdraw, account, fundsToGet);
 
             await _shireBankDbContext.SaveChangesAsync();
 

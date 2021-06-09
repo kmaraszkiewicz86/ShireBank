@@ -26,7 +26,7 @@ namespace ShireBank.Extensions
                  {
                      options.MigrationsAssembly(Assembly.GetAssembly(typeof(ShireBankDbContext)).FullName);
                  });
-            });
+            }, ServiceLifetime.Transient);
 
             serviceCollection.AddTransient<IAccountService, AccountService>();
             serviceCollection.AddTransient<IAccountOperationService, AccountOperationService>();
@@ -54,7 +54,7 @@ namespace ShireBank.Extensions
 
         public static IServiceCollection AddFasades(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IAccountHistoryFasade, AccountHistoryFasade>();
+            serviceCollection.AddTransient<IAccountHistoryFasade, AccountHistoryFasade>();
 
             return serviceCollection;
         }

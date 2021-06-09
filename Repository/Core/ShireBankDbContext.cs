@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Repository.Extensions;
@@ -15,7 +14,9 @@ namespace Repository.Core
 
         public ShireBankDbContext(DbContextOptions options)
             : base(options)
-        { }
+        { 
+            
+        }
 
         public async Task CreateDatabaseIfNotExistsAsync()
         {

@@ -3,7 +3,9 @@
     public enum AccountHistoryTypeOperation
     {
         None = 0,
-        Deposit = 1,
-        Withdraw = 2,
+        OpenAccount = 1,
+        CloseAccount = 2,
+        Deposit = 3,
+        Withdraw = 4,
     }
 }

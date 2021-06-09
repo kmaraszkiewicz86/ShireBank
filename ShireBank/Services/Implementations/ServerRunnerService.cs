@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Grpc.Core;
-using SharedInterface;
-using ShireBank.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using SharedInterface;
 using SharedInterface.Interfaces.CustomInterface;
 using SharedInterface.Interfaces.InspectorInterface;
-using static SharedInterface.Interfaces.InspectorInterface.InspectorInterface;
+using ShireBank.Services.Interfaces;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
-using ShireBank.Services.Implementations.Builders;
+using static SharedInterface.Interfaces.InspectorInterface.InspectorInterface;
 
 namespace ShireBank.Services.Implementations
 {
@@ -16,9 +15,13 @@ namespace ShireBank.Services.Implementations
     {
         private readonly ILoggerService _loggerService;
 
-        public ServerRunnerService(ILoggerService loggerService)
+        private readonly IServiceProvider _serviceProvider;
+
+        public ServerRunnerService(ILoggerService loggerService, 
+            IServiceProvider serviceProvider)
         {
             _loggerService = loggerService;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task RunAsync()
@@ -28,9 +31,10 @@ namespace ShireBank.Services.Implementations
                 Ports = { new ServerPort(Constants.BankBaseAddressUri.Host, Constants.BankBaseAddressUri.Port, ServerCredentials.Insecure) },
                 Services =
                 {
-                    CustomerInterface.BindService(HostingBuilder.ServiceProvider.GetService<CustomerInterfaceBase>()),
-                    InspectorInterface.BindService(HostingBuilder.ServiceProvider.GetService<InspectorInterfaceBase>())
+                    CustomerInterface.BindService(_serviceProvider.GetService<CustomerInterfaceBase>()),
+                    InspectorInterface.BindService(_serviceProvider.GetService<InspectorInterfaceBase>())
                 }
+                
             };
 
             try

@@ -14,7 +14,6 @@ namespace CustomerTest
 
             using (GrpcChannel channel = GrpcChannel.ForAddress(Constants.FullBankAddress, new GrpcChannelOptions
             {
-                DisposeHttpClient = true
                 
             }))
             {
@@ -64,8 +63,6 @@ namespace CustomerTest
                 // Customer 2
                 new Thread(() =>
                {
-
-
                    var customer = new CustomerService(channel);
 
                    var accountId = customer.OpenAccount("Barbara", "Tuk", 50.0f);
@@ -133,9 +130,9 @@ namespace CustomerTest
 
                    for (var i = 0; i < 100; i++)
                    {
-                       ThreadPool.QueueUserWorkItem((stateInfo) =>
+                       ThreadPool.QueueUserWorkItem(async (stateInfo) =>
                        {
-                           if (customer.Withdraw(accountId.Value, 10.0f) != 10.0f)
+                           if (await customer.WithdrawAsync(accountId.Value, 10.0f) != 10.0f)
                            {
                                throw new Exception("Can't withdraw a valid amount!");
                            }
@@ -146,9 +143,9 @@ namespace CustomerTest
 
                    for (var i = 0; i < 100; i++)
                    {
-                       ThreadPool.QueueUserWorkItem((stateInfo) =>
+                       ThreadPool.QueueUserWorkItem(async (stateInfo) =>
                            {
-                               customer.Deposit(accountId.Value, 10.0f);
+                               await customer.DepositAsync(accountId.Value, 10.0f);
                                if (Interlocked.Decrement(ref toProcess) == 0)
                                    resetEvent.Set();
                            });

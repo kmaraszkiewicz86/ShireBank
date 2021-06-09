@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Models.Entities;
 using Models.Models;
@@ -10,8 +9,6 @@ namespace Repository.Services.Implementations
 {
     public sealed class AccountService : IAccountService
     {
-        private static object _locker = new object();
-
         private readonly ShireBankDbContext _shireBankDbContext;
 
         public AccountService(ShireBankDbContext shireBankDbContext)
@@ -39,7 +36,7 @@ namespace Repository.Services.Implementations
         {
             Account accountToRemove = _shireBankDbContext.Accounts.FirstOrDefault(a => a.AccountId == closeAccountRequestModel.Account);
 
-            if (accountToRemove == null || accountToRemove.Amount > 0)
+            if (accountToRemove == null || accountToRemove.Amount != 0)
                 return new Result(false);
 
             _shireBankDbContext.Accounts.Remove(accountToRemove);

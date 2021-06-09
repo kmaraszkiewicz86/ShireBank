@@ -32,16 +32,16 @@ namespace Repository.Services.Implementations
             return new ResultWithModel<List<AccountHistory>>(accountHistories);
         }
 
-        public async Task AddHistoryAsync(AccountHistoryTypeOperation accountHistoryTypeOperation, Account account, float amountOfFunds)
+        public async Task AddHistoryAsync(ShireBankDbContext shireBankDbContext, AccountHistoryTypeOperation accountHistoryTypeOperation, Account account, float amountOfFunds)
         {
-            var accountHistoryTypeFromDb = await _shireBankDbContext.AccountHistoryTypes.FirstOrDefaultAsync(at => at.Name == accountHistoryTypeOperation.ToString());
+            var accountHistoryTypeFromDb = await shireBankDbContext.AccountHistoryTypes.FirstOrDefaultAsync(at => at.Name == accountHistoryTypeOperation.ToString());
 
-            if (accountHistoryTypeFromDb != null)
+            if (accountHistoryTypeFromDb == null)
             {
                 return;
             }
 
-            _shireBankDbContext.AccountHistories.Add(new AccountHistory
+            shireBankDbContext.AccountHistories.Add(new AccountHistory
             {
                 Account = account,
                 AccountHistoryType = accountHistoryTypeFromDb,

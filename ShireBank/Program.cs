@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShireBank.Helper;
@@ -13,13 +14,13 @@ namespace ShireBank
         {
             IConfiguration configuration = ConfigurationBuilderHelper.GetNLogConfig();
 
-            new HostingBuilder()
+            IServiceProvider serviceProvider = new HostingBuilder()
                 .InitializeRequiredServices(configuration)
                 .Build();
 
-            await DatabaseCreatorHelper.CreateDatabaseAsync();
+            await serviceProvider.CreateDatabaseAsync();
 
-            await HostingBuilder.ServiceProvider.GetService<IServerRunnerService>().RunAsync();
+            await serviceProvider.GetService<IServerRunnerService>().RunAsync();
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Models.Models;
 using Repository.Services.Interfaces;
 using Services.Services.Interfaces;
@@ -11,17 +13,17 @@ namespace ShireBank
 {
     public class CustomerServiceHost : CustomerInterfaceBase
     {
-        private IAccountService _accountService;
+        private readonly IServiceProvider _serviceProvider;
 
-        private IAccountOperationService _accountOperationService;
+        private IAccountService _accountService => _serviceProvider.GetService<IAccountService>();
 
-        private IAccountHistoryFasade _accountHistoryFasade;
+        private IAccountOperationService _accountOperationService => _serviceProvider.GetService<IAccountOperationService>();
 
-        public CustomerServiceHost(IAccountService accountService, IAccountOperationService accountOperationService, IAccountHistoryFasade accountHistoryFasade)
+        private IAccountHistoryFasade _accountHistoryFasade => _serviceProvider.GetService<IAccountHistoryFasade>();
+
+        public CustomerServiceHost(IServiceProvider serviceProvider)
         {
-            _accountService = accountService;
-            _accountOperationService = accountOperationService;
-            _accountHistoryFasade = accountHistoryFasade;
+            _serviceProvider = serviceProvider;
         }
 
         public override async Task<OpenAccountResponse> OpenAccountAsync(OpenAccountRequest request, ServerCallContext context)

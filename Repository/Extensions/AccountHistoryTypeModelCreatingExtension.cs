@@ -23,9 +23,8 @@ namespace Repository.Extensions
         {
             modelBuilder.Entity<AccountHistoryType>().HasData(new AccountHistoryType[]
             {
-                new AccountHistoryType { AccountHistoryTypeId = 1, Name = "OpenAccount" },
-                new AccountHistoryType { AccountHistoryTypeId = 2, Name = "Deposit" },
-                new AccountHistoryType { AccountHistoryTypeId = 3, Name = "Withdraw" }
+                new AccountHistoryType { AccountHistoryTypeId = 1, Name = "Deposit" },
+                new AccountHistoryType { AccountHistoryTypeId = 2, Name = "Withdraw" }
             });
         }
     }

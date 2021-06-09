@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using System.Threading.Tasks;
+using Grpc.Net.Client;
 using SharedInterface.Interfaces.CustomInterface;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
 
@@ -49,6 +50,30 @@ namespace CustomerTest.Services
             };
 
             var response = _customerInterfaceClient.WithdrawAsync(request);
+
+            return response.Amount;
+        }
+
+        public async Task DepositAsync(uint account, float amount)
+        {
+            var request = new DepositRequest
+            {
+                Account = account,
+                Amount = amount
+            };
+
+            await _customerInterfaceClient.DepositAsyncAsync(request);
+        }
+
+        public async Task<float> WithdrawAsync(uint account, float amount)
+        {
+            var request = new WithdrawRequest
+            {
+                Account = account,
+                Amount = amount
+            };
+
+            var response = await _customerInterfaceClient.WithdrawAsyncAsync(request);
 
             return response.Amount;
         }
