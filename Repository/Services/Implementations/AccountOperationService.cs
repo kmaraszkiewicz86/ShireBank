@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Enums;
@@ -34,6 +35,9 @@ namespace Repository.Services.Implementations
             {
                 account.Amount += depositRequestModel.Amount;
                 _shireBankDbContext.Update(account);
+                Console.WriteLine("---------------------------------------------------------");
+                Console.WriteLine($"account.Amount: {account.Amount}");
+                Console.WriteLine("---------------------------------------------------------");
             }
 
             await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Deposit, account, depositRequestModel.Amount);

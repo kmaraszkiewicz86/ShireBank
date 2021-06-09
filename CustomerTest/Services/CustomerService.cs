@@ -7,8 +7,6 @@ namespace CustomerTest.Services
 {
     public class CustomerService
     {
-        private static object _locker = new object();
-
         private readonly CustomerInterfaceClient _customerInterfaceClient;
 
         public CustomerService(GrpcChannel channel)

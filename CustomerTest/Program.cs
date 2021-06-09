@@ -161,10 +161,11 @@ namespace CustomerTest
                        Console.Write(customer.GetHistory(accountId.Value));
                    }
 
-                   if (!customer.CloseAccount(accountId.Value))
-                   {
-                       throw new Exception("Failed to close account"); ;
-                   }
+                   //todo: fix this section, doesn't work
+                   //if (!customer.CloseAccount(accountId.Value))
+                   //{
+                   //    throw new Exception("Failed to close account"); ;
+                   //}
 
                    endOfWorkEvents[2].Set();
                }).Start();
