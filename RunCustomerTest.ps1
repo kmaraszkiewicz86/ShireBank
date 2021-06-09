@@ -16,4 +16,6 @@ dotnet run --configuration Release
 
 Write-Output ‘Press any key to exit’
 
+cd ..
+
 pasue

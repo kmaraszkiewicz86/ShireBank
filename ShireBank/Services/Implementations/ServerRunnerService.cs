@@ -40,7 +40,7 @@ namespace ShireBank.Services.Implementations
                 _loggerService.LogInformation($"Starting server on port {Constants.BankBaseAddressUri.Port}");
                 _loggerService.LogInformation("Press any key to stop...");
 
-                Console.ReadKey();
+                Console.ReadLine();
 
                 _loggerService.LogInformation("Service stopped...");
 

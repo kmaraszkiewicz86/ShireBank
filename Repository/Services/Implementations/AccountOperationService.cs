@@ -32,9 +32,9 @@ namespace Repository.Services.Implementations
 
             _shireBankDbContext.Update(account);
 
-            await _shireBankDbContext.SaveChangesAsync();
-
             await _accountHistoryService.AddHistoryAsync(AccountHistoryTypeOperation.Deposit, account, depositRequestModel.Amount);
+
+            await _shireBankDbContext.SaveChangesAsync();
 
             return new Result(true);
         }
@@ -53,6 +53,8 @@ namespace Repository.Services.Implementations
             _shireBankDbContext.Update(account);
 
             await _accountHistoryService.AddHistoryAsync(AccountHistoryTypeOperation.Withdraw, account, fundsToGet);
+
+            await _shireBankDbContext.SaveChangesAsync();
 
             return new ResultWithModel<float>(fundsToGet);
         }

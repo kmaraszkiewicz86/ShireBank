@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
-using Microsoft.Extensions.DependencyInjection;
 using Models.Models;
 using Repository.Services.Interfaces;
 using Services.Services.Interfaces;
 using SharedInterface.Extensions;
 using SharedInterface.Interfaces.CustomInterface;
-using ShireBank.Services.Implementations.Builders;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
 
 namespace ShireBank
@@ -19,17 +17,15 @@ namespace ShireBank
 
         private IAccountHistoryFasade _accountHistoryFasade;
 
-        public void InitializeServices()
+        public CustomerServiceHost(IAccountService accountService, IAccountOperationService accountOperationService, IAccountHistoryFasade accountHistoryFasade)
         {
-            _accountService = HostingBuilder.ServiceProvider.GetService<IAccountService>();
-            _accountOperationService = HostingBuilder.ServiceProvider.GetService<IAccountOperationService>();
-            _accountHistoryFasade = HostingBuilder.ServiceProvider.GetService<IAccountHistoryFasade>();
+            _accountService = accountService;
+            _accountOperationService = accountOperationService;
+            _accountHistoryFasade = accountHistoryFasade;
         }
 
         public override async Task<OpenAccountResponse> OpenAccountAsync(OpenAccountRequest request, ServerCallContext context)
         {
-            InitializeServices();
-
             ResultWithModel<uint> result = await _accountService.OpenAccountAsync(request.ToOpenAccountRequestModel());
 
             return new OpenAccountResponse { FinishedWitSuccess = result.OperationFinisedWithSuccess, AccountId = result.ReturnType };
@@ -37,8 +33,6 @@ namespace ShireBank
 
         public override async Task<WithdrawResponse> WithdrawAsync(WithdrawRequest request, ServerCallContext context)
         {
-            InitializeServices();
-
             ResultWithModel<float> result = await _accountOperationService.WithdrawAsync(request.ToWithdrawRequestExtension());
 
             return new WithdrawResponse { Amount = result.ReturnType };
@@ -46,8 +40,6 @@ namespace ShireBank
 
         public override async Task<Empty> DepositAsync(DepositRequest request, ServerCallContext context)
         {
-            InitializeServices();
-
             await _accountOperationService.DepositAsync(request.ToDepositRequestModel());
 
             return new Empty();
@@ -55,15 +47,11 @@ namespace ShireBank
 
         public override async Task<GetHistoryResponse> GetHistoryAsync(GetHistoryRequest request, ServerCallContext context)
         {
-            InitializeServices();
-
             return new GetHistoryResponse { BankHistory = await _accountHistoryFasade.GetAccountHistoryAsync(request.ToGetHistoryRequestModel()) };
         }
 
         public override async Task<CloseAccountResponse> CloseAccountAsync(CloseAccountRequest request, ServerCallContext context)
         {
-            InitializeServices();
-
             Result result = await _accountService.CloseAccountAsync(request.ToCloseAccountRequestModel());
 
             return new CloseAccountResponse { FinishedWitSuccess = result.OperationFinisedWithSuccess };
