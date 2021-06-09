@@ -72,10 +72,5 @@ namespace Repository.Services.Implementations
 
             return account;
         }
-
-        ~AccountService()
-        {
-            _shireBankDbContext?.Dispose();
-        }
     }
 }

@@ -10,7 +10,7 @@ namespace Services.Services.Implementations
     {
         public string FormatHistory(List<AccountHistory> accountHistories)
         {
-            if (accountHistories == null)
+            if (accountHistories == null || accountHistories.Count == 0)
                 return string.Empty;
 
             var account = accountHistories.First().Account;

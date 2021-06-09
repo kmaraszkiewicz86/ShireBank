@@ -24,12 +24,9 @@ namespace CustomerTest.Services
                 DebtLimit = debtLimit
             };
 
-            lock (_locker)
-            {
-                OpenAccountResponse response = _customerInterfaceClient.OpenAccountAsync(request);
+            OpenAccountResponse response = _customerInterfaceClient.OpenAccountAsync(request);
 
-                return response.FinishedWitSuccess ? response.AccountId : null;
-            }
+            return response.FinishedWitSuccess ? response.AccountId : null;
         }
 
         public void Deposit(uint account, float amount)
@@ -40,10 +37,7 @@ namespace CustomerTest.Services
                 Amount = amount
             };
 
-            lock (_locker)
-            {
-                _customerInterfaceClient.DepositAsync(request);
-            }
+            _customerInterfaceClient.DepositAsync(request);
         }
 
         public float Withdraw(uint account, float amount)
@@ -66,12 +60,9 @@ namespace CustomerTest.Services
                 Account = account
             };
 
-            lock(_locker)
-            {
-                GetHistoryResponse response = _customerInterfaceClient.GetHistoryAsync(request);
+            GetHistoryResponse response = _customerInterfaceClient.GetHistoryAsync(request);
 
-                return response.BankHistory;
-            }
+            return response.BankHistory;
         }
 
         public bool CloseAccount(uint account)
@@ -81,12 +72,9 @@ namespace CustomerTest.Services
                 Account = account
             };
 
-            lock (_locker)
-            {
-                CloseAccountResponse response = _customerInterfaceClient.CloseAccountAsync(request);
+            CloseAccountResponse response = _customerInterfaceClient.CloseAccountAsync(request);
 
-                return response.FinishedWitSuccess;
-            }
+            return response.FinishedWitSuccess;
         }
     }
 }

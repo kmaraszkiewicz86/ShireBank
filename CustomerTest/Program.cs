@@ -64,7 +64,7 @@ namespace CustomerTest
                 // Customer 2
                 new Thread(() =>
                {
-                   
+
 
                    var customer = new CustomerService(channel);
 

@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Models.Models;
 using Repository.Services.Interfaces;
+using Services.Services.Interfaces;
 using SharedInterface.Extensions;
 using SharedInterface.Interfaces.CustomInterface;
 using ShireBank.Services.Implementations.Builders;
-using Microsoft.Extensions.DependencyInjection;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
-using Services.Services.Interfaces;
 
 namespace ShireBank
 {
