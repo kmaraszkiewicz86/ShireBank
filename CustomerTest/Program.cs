@@ -10,33 +10,43 @@ namespace CustomerTest
     {
         static void Main(string[] args)
         {
-            using (GrpcChannel channel = GrpcChannel.ForAddress(Constants.FullBankAddress))
+            using (GrpcChannel channel = GrpcChannel.ForAddress(Constants.FullBankAddress, new GrpcChannelOptions
+            {
+                DisposeHttpClient = true
+                
+            }))
             {
                 ManualResetEvent[] endOfWorkEvents = { new ManualResetEvent(false), new ManualResetEvent(false), new ManualResetEvent(false) };
 
                 var historyPrintLock = new object();
 
                 // Customer 1
-                new Thread(() =>
+                new Thread(async () =>
                    {
+                       var channel = GrpcChannel.ForAddress(Constants.FullBankAddress, new GrpcChannelOptions
+                       {
+                           DisposeHttpClient = true
+
+                       });
+
                        var customer = new CustomerService(channel);
 
                        Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                       var accountId = customer.OpenAccount("Henrietta", "Baggins", 100.0f);
+                       var accountId = await customer.OpenAccount("Henrietta", "Baggins", 100.0f);
                        if (accountId == null)
                        {
                            throw new Exception("Failed to open account");
                        }
 
-                       customer.Deposit(accountId.Value, 500.0f);
+                       await customer.Deposit(accountId.Value, 500.0f);
 
                        Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                       customer.Deposit(accountId.Value, 500.0f);
-                       customer.Deposit(accountId.Value, 1000.0f);
+                       await customer.Deposit(accountId.Value, 500.0f);
+                       await customer.Deposit(accountId.Value, 1000.0f);
 
-                       if (2000.0f != customer.Withdraw(accountId.Value, 2000.0f))
+                       if (2000.0f != await customer.Withdraw(accountId.Value, 2000.0f))
                        {
                            throw new Exception("Can't withdraw a valid amount");
                        }
@@ -47,7 +57,7 @@ namespace CustomerTest
                            Console.Write(customer.GetHistory(accountId.Value));
                        }
 
-                       if (!customer.CloseAccount(accountId.Value))
+                       if (!await customer.CloseAccount(accountId.Value))
                        {
                            throw new Exception("Failed to close account"); ;
                        }
@@ -56,40 +66,46 @@ namespace CustomerTest
                    }).Start();
 
                 // Customer 2
-                new Thread(() =>
+                new Thread(async () =>
                {
+                   var channel = GrpcChannel.ForAddress(Constants.FullBankAddress, new GrpcChannelOptions
+                   {
+                       DisposeHttpClient = true
+
+                   });
+
                    var customer = new CustomerService(channel);
 
-                   var accountId = customer.OpenAccount("Barbara", "Tuk", 50.0f);
+                   var accountId = await customer.OpenAccount("Barbara", "Tuk", 50.0f);
                    if (accountId == null)
                    {
                        throw new Exception("Failed to open account");
                    }
 
-                   if (customer.OpenAccount("Barbara", "Tuk", 500.0f) != null)
+                   if ((await customer.OpenAccount("Barbara", "Tuk", 500.0f)) != null)
                    {
                        throw new Exception("Opened account for the same name twice!");
                    }
 
-                   if (50.0f != customer.Withdraw(accountId.Value, 2000.0f))
+                   if (50.0f != await customer.Withdraw(accountId.Value, 2000.0f))
                    {
                        throw new Exception("Can only borrow up to debit limit only");
                    }
 
                    Thread.Sleep(TimeSpan.FromSeconds(10));
 
-                   if (customer.CloseAccount(accountId.Value))
+                   if (await customer.CloseAccount(accountId.Value))
                    {
                        throw new Exception("Can't close the account with outstanding debt");
                    }
 
-                   customer.Deposit(accountId.Value, 100.0f);
-                   if (customer.CloseAccount(accountId.Value))
+                   await customer.Deposit(accountId.Value, 100.0f);
+                   if (await customer.CloseAccount(accountId.Value))
                    {
                        throw new Exception("Can't close the account before clearing all funds");
                    }
 
-                   if (50.0f != customer.Withdraw(accountId.Value, 50.0f))
+                   if (50.0f != await customer.Withdraw(accountId.Value, 50.0f))
                    {
                        throw new Exception("Can't withdraw a valid amount");
                    }
@@ -100,7 +116,7 @@ namespace CustomerTest
                        Console.Write(customer.GetHistory(accountId.Value));
                    }
 
-                   if (!customer.CloseAccount(accountId.Value))
+                   if (!await customer.CloseAccount(accountId.Value))
                    {
                        throw new Exception("Failed to close account"); ;
                    }
@@ -110,11 +126,17 @@ namespace CustomerTest
 
 
                 // Customer 3
-                new Thread(() =>
+                new Thread(async () =>
                {
+                   var channel = GrpcChannel.ForAddress(Constants.FullBankAddress, new GrpcChannelOptions
+                   {
+                       DisposeHttpClient = true
+
+                   });
+
                    var customer = new CustomerService(channel);
 
-                   var accountId = customer.OpenAccount("Gandalf", "Grey", 10000.0f);
+                   var accountId = await customer.OpenAccount("Gandalf", "Grey", 10000.0f);
                    if (accountId == null)
                    {
                        throw new Exception("Failed to open account");
@@ -125,9 +147,9 @@ namespace CustomerTest
 
                    for (var i = 0; i < 100; i++)
                    {
-                       ThreadPool.QueueUserWorkItem((stateInfo) =>
+                       ThreadPool.QueueUserWorkItem(async (stateInfo) =>
                        {
-                           if (customer.Withdraw(accountId.Value, 10.0f) != 10.0f)
+                           if (await customer.Withdraw(accountId.Value, 10.0f) != 10.0f)
                            {
                                throw new Exception("Can't withdraw a valid amount!");
                            }
@@ -138,9 +160,9 @@ namespace CustomerTest
 
                    for (var i = 0; i < 100; i++)
                    {
-                       ThreadPool.QueueUserWorkItem((stateInfo) =>
+                       ThreadPool.QueueUserWorkItem(async (stateInfo) =>
                            {
-                               customer.Deposit(accountId.Value, 10.0f);
+                               await customer.Deposit(accountId.Value, 10.0f);
                                if (Interlocked.Decrement(ref toProcess) == 0)
                                    resetEvent.Set();
                            });
@@ -156,7 +178,7 @@ namespace CustomerTest
                        Console.Write(customer.GetHistory(accountId.Value));
                    }
 
-                   if (!customer.CloseAccount(accountId.Value))
+                   if (!await customer.CloseAccount(accountId.Value))
                    {
                        throw new Exception("Failed to close account"); ;
                    }

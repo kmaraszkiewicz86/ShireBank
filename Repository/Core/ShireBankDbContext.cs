@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Repository.Extensions;
 
@@ -11,13 +12,13 @@ namespace Repository.Core
         public DbSet<AccountHistoryType> AccountHistoryTypes { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
-        public ShireBankDbContext(DbContextOptions options) : base(options)
-        {
-            
-        }
+        public ShireBankDbContext(DbContextOptions<ShireBankDbContext> options)
+            : base(options)
+        { }
 
         public void CreateDatabaseIfNotExists()
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

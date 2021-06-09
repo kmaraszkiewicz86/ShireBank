@@ -24,19 +24,19 @@ namespace ShireBank.Extensions
                  });
             }, ServiceLifetime.Transient);
 
-            serviceCollection.AddScoped<IAccountService, AccountService>();
-            serviceCollection.AddScoped<IAccountOperationService, AccountOperationService>();
-            serviceCollection.AddScoped<IAccountHistoryService, AccountHistoryService>();
+            serviceCollection.AddTransient<IAccountService, AccountService>();
+            serviceCollection.AddTransient<IAccountOperationService, AccountOperationService>();
+            serviceCollection.AddTransient<IAccountHistoryService, AccountHistoryService>();
 
             return serviceCollection;
         }
 
         public static IServiceCollection AddGrpcServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<CustomerInterfaceBase, CustomerServiceHost>();
-            serviceCollection.AddScoped<InspectorInterfaceBase, InspectorServiceHost>();
+            serviceCollection.AddTransient<CustomerInterfaceBase, CustomerServiceHost>();
+            serviceCollection.AddTransient<InspectorInterfaceBase, InspectorServiceHost>();
 
-            serviceCollection.AddScoped<IServerRunnerService, ServerRunnerService>();
+            serviceCollection.AddTransient<IServerRunnerService, ServerRunnerService>();
 
             return serviceCollection;
         }

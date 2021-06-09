@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Models.Entities;
 using Models.Models;
 using Repository.Core;
@@ -18,23 +19,57 @@ namespace Repository.Services.Implementations
 
         public async Task<ResultWithModel<uint>> OpenAccountAsync(OpenAccountRequestModel openAccountRequestModel)
         {
-            Customer customer = await GetCustomerAsync(openAccountRequestModel);
+            for (var index = 0; index < 5; index++)
+            {
+                try
+                {
+                    Customer customer = GetCustomer(openAccountRequestModel);
 
-            if (customer != null)
-                return new ResultWithModel<uint>();
+                    if (customer != null)
+                        return new ResultWithModel<uint>();
 
-            Customer newCustomer = await AddCustomerAsync(openAccountRequestModel);
+                    Customer newCustomer = await AddCustomerAsync(openAccountRequestModel);
 
-            Account newAccount = await CreateAccountAsync(openAccountRequestModel, newCustomer);
+                    Account newAccount = await CreateAccountAsync(openAccountRequestModel, newCustomer);
 
-            await _shireBankDbContext.SaveChangesAsync();
+                    await _shireBankDbContext.SaveChangesAsync();
 
-            return new ResultWithModel<uint>(newAccount.AccountId);
+                    return new ResultWithModel<uint>(newAccount.AccountId);
+                }
+                catch (Exception err)
+                {
+                    await Task.Delay(200);
+                    continue;
+                }
+            }
+
+            return new ResultWithModel<uint>();
+        }
+
+        public async Task<ResultWithModel<uint>> OpenAccountAsync2(OpenAccountRequestModel openAccountRequestModel)
+        {
+            using (var transaction = await _shireBankDbContext.Database.BeginTransactionAsync())
+            {
+                Customer customer = GetCustomer(openAccountRequestModel);
+
+                if (customer != null)
+                    return new ResultWithModel<uint>();
+
+                Customer newCustomer = await AddCustomerAsync(openAccountRequestModel);
+
+                Account newAccount = await CreateAccountAsync(openAccountRequestModel, newCustomer);
+
+                await _shireBankDbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return new ResultWithModel<uint>(newAccount.AccountId);
+            }
         }
 
         public async Task<Result> CloseAccountAsync(CloseAccountRequestModel closeAccountRequestModel)
         {
-            Account accountToRemove = await _shireBankDbContext.Accounts.FirstOrDefaultAsync(a => a.AccountId == closeAccountRequestModel.Account);
+            Account accountToRemove = _shireBankDbContext.Accounts.FirstOrDefault(a => a.AccountId == closeAccountRequestModel.Account);
 
             if (accountToRemove == null)
                 return new Result(false);
@@ -46,9 +81,9 @@ namespace Repository.Services.Implementations
             return new Result(true);
         }
 
-        private async Task<Customer> GetCustomerAsync(OpenAccountRequestModel openAccountRequestModel)
+        private Customer GetCustomer(OpenAccountRequestModel openAccountRequestModel)
         {
-            return await _shireBankDbContext.Customers.FirstOrDefaultAsync(
+            return _shireBankDbContext.Customers.FirstOrDefault(
                 c => c.FirstName == openAccountRequestModel.FirstName && c.LastName == openAccountRequestModel.LastName);
         }
 
@@ -68,6 +103,11 @@ namespace Repository.Services.Implementations
             await _shireBankDbContext.Accounts.AddAsync(account);
 
             return account;
+        }
+
+        ~AccountService()
+        {
+            _shireBankDbContext?.Dispose();
         }
     }
 }

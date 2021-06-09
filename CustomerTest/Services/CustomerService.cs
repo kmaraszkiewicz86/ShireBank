@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using System.Threading.Tasks;
+using Grpc.Net.Client;
 using SharedInterface.Interfaces.CustomInterface;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
 
@@ -13,7 +14,7 @@ namespace CustomerTest.Services
             _customerInterfaceClient = new CustomerInterfaceClient(channel);
         }
 
-        public uint? OpenAccount(string firstName, string lastName, float debtLimit)
+        public async Task<uint?> OpenAccount(string firstName, string lastName, float debtLimit)
         {
             var request = new OpenAccountRequest
             {
@@ -22,12 +23,12 @@ namespace CustomerTest.Services
                 DebtLimit = debtLimit
             };
 
-            OpenAccountResponse response = _customerInterfaceClient.OpenAccountAsync(request);
+            OpenAccountResponse response = await _customerInterfaceClient.OpenAccountAsyncAsync(request);
 
             return response.FinishedWitSuccess ? response.AccountId : null;
         }
 
-        public void Deposit(uint account, float amount)
+        public async Task Deposit(uint account, float amount)
         {
             var request = new DepositRequest
             {
@@ -35,10 +36,10 @@ namespace CustomerTest.Services
                 Amount = amount
             };
 
-            _customerInterfaceClient.DepositAsync(request);
+            await _customerInterfaceClient.DepositAsyncAsync(request);
         }
 
-        public float Withdraw(uint account, float amount)
+        public async Task<float> Withdraw(uint account, float amount)
         {
             var request = new WithdrawRequest
             {
@@ -46,31 +47,31 @@ namespace CustomerTest.Services
                 Amount = amount
             };
 
-            WithdrawResponse response = _customerInterfaceClient.WithdrawAsync(request);
+            WithdrawResponse response = await _customerInterfaceClient.WithdrawAsyncAsync(request);
 
             return response.Amount;
         }
 
-        public string GetHistory(uint account)
+        public async Task<string> GetHistory(uint account)
         {
             var request = new GetHistoryRequest
             {
                 Account = account
             };
 
-            GetHistoryResponse response = _customerInterfaceClient.GetHistoryAsync(request);
+            GetHistoryResponse response = await _customerInterfaceClient.GetHistoryAsyncAsync(request);
 
             return response.BankHistory;
         }
 
-        public bool CloseAccount(uint account)
+        public async Task<bool> CloseAccount(uint account)
         {
             var request = new CloseAccountRequest
             {
                 Account = account
             };
 
-            CloseAccountResponse response = _customerInterfaceClient.CloseAccountAsync(request);
+            CloseAccountResponse response = await _customerInterfaceClient.CloseAccountAsyncAsync(request);
 
             return response.FinishedWitSuccess;
         }
