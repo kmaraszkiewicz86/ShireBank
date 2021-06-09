@@ -22,7 +22,7 @@ namespace ShireBank.Extensions
                  {
                      options.MigrationsAssembly(Assembly.GetAssembly(typeof(ShireBankDbContext)).FullName);
                  });
-            }, ServiceLifetime.Transient);
+            });
 
             serviceCollection.AddTransient<IAccountService, AccountService>();
             serviceCollection.AddTransient<IAccountOperationService, AccountOperationService>();
@@ -43,7 +43,7 @@ namespace ShireBank.Extensions
 
         public static IServiceCollection AddLoggers(this IServiceCollection serviceCollection, IConfiguration config)
         {
-            serviceCollection.AddTransient<ILoggerService, LoggerService>();
+            serviceCollection.AddSingleton<ILoggerService, LoggerService>();
 
             return serviceCollection;
         }

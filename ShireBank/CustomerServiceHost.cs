@@ -56,9 +56,9 @@ namespace ShireBank
         {
             InitializeServices();
 
-            ResultWithModel<string>  result = await _accountHistoryService.GetHistoryAsync(request.ToGetHistoryRequestModel());
+            //ResultWithModel<string>  result = await _accountHistoryService.GetHistoryAsync(request.ToGetHistoryRequestModel());
 
-            return new GetHistoryResponse { BankHistory = result.ReturnType };
+            return new GetHistoryResponse { BankHistory = string.Empty };// result.ReturnType };
         }
 
         public override async Task<CloseAccountResponse> CloseAccountAsync(CloseAccountRequest request, ServerCallContext context)

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using SharedInterface.Interfaces.CustomInterface;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
 
@@ -7,6 +6,8 @@ namespace CustomerTest.Services
 {
     public class CustomerService
     {
+        private static object _locker = new object();
+
         private readonly CustomerInterfaceClient _customerInterfaceClient;
 
         public CustomerService(GrpcChannel channel)
@@ -14,7 +15,7 @@ namespace CustomerTest.Services
             _customerInterfaceClient = new CustomerInterfaceClient(channel);
         }
 
-        public async Task<uint?> OpenAccount(string firstName, string lastName, float debtLimit)
+        public uint? OpenAccount(string firstName, string lastName, float debtLimit)
         {
             var request = new OpenAccountRequest
             {
@@ -23,12 +24,15 @@ namespace CustomerTest.Services
                 DebtLimit = debtLimit
             };
 
-            OpenAccountResponse response = await _customerInterfaceClient.OpenAccountAsyncAsync(request);
+            lock (_locker)
+            {
+                OpenAccountResponse response = _customerInterfaceClient.OpenAccountAsync(request);
 
-            return response.FinishedWitSuccess ? response.AccountId : null;
+                return response.FinishedWitSuccess ? response.AccountId : null;
+            }
         }
 
-        public async Task Deposit(uint account, float amount)
+        public void Deposit(uint account, float amount)
         {
             var request = new DepositRequest
             {
@@ -36,10 +40,13 @@ namespace CustomerTest.Services
                 Amount = amount
             };
 
-            await _customerInterfaceClient.DepositAsyncAsync(request);
+            lock (_locker)
+            {
+                _customerInterfaceClient.DepositAsync(request);
+            }
         }
 
-        public async Task<float> Withdraw(uint account, float amount)
+        public float Withdraw(uint account, float amount)
         {
             var request = new WithdrawRequest
             {
@@ -47,33 +54,39 @@ namespace CustomerTest.Services
                 Amount = amount
             };
 
-            WithdrawResponse response = await _customerInterfaceClient.WithdrawAsyncAsync(request);
+            var response = _customerInterfaceClient.WithdrawAsync(request);
 
             return response.Amount;
         }
 
-        public async Task<string> GetHistory(uint account)
+        public string GetHistory(uint account)
         {
             var request = new GetHistoryRequest
             {
                 Account = account
             };
 
-            GetHistoryResponse response = await _customerInterfaceClient.GetHistoryAsyncAsync(request);
+            lock(_locker)
+            {
+                GetHistoryResponse response = _customerInterfaceClient.GetHistoryAsync(request);
 
-            return response.BankHistory;
+                return response.BankHistory;
+            }
         }
 
-        public async Task<bool> CloseAccount(uint account)
+        public bool CloseAccount(uint account)
         {
             var request = new CloseAccountRequest
             {
                 Account = account
             };
 
-            CloseAccountResponse response = await _customerInterfaceClient.CloseAccountAsyncAsync(request);
+            lock (_locker)
+            {
+                CloseAccountResponse response = _customerInterfaceClient.CloseAccountAsync(request);
 
-            return response.FinishedWitSuccess;
+                return response.FinishedWitSuccess;
+            }
         }
     }
 }

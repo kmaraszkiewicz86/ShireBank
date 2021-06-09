@@ -17,7 +17,7 @@ namespace ShireBank
                 .InitializeRequiredServices(configuration)
                 .Build();
 
-            DatabaseCreatorHelper.CreateDatabase();
+            await DatabaseCreatorHelper.CreateDatabaseAsync();
 
             await HostingBuilder.ServiceProvider.GetService<IServerRunnerService>().RunAsync();
         }

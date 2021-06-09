@@ -9,10 +9,10 @@ namespace Models.Entities
         public int AccountHistoryId { get; set; }
 
         [Required]
-        public decimal AmountOfFunds { get; set; }
+        public float AmountOfFunds { get; set; }
 
         [Required]
-        public decimal AmountOfFoundsAfterOperation { get; set; }
+        public float AmountOfFoundsAfterOperation { get; set; }
 
         [Required]
         public DateTime HistoryDate { get; set; }

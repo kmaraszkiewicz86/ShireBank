@@ -4,8 +4,8 @@ using FluentAssertions;
 using Models.Entities;
 using Models.Models;
 using NUnit.Framework;
-using Repository.Core;
 using Repository.Services.Implementations;
+using Repository.Tests.TestData;
 
 namespace Repository.Test.Services.Implementations
 {
@@ -22,23 +22,8 @@ namespace Repository.Test.Services.Implementations
 
             _accountService = new AccountService(shireBankDbContext);
 
-            Customer[] customers = new[]
-            {
-                new Customer { CustomerId = 1, FirstName = "PersonName1", LastName = "PersonSurname1" },
-                new Customer { CustomerId = 2, FirstName = "PersonName2", LastName = "PersonSurname2" }
-            };
-
-            foreach (Customer customer in customers)
-            {
-                await shireBankDbContext.Customers.AddAsync(customer);
-            }
-
-            await shireBankDbContext.Accounts.AddAsync(new Account { AccountId = 1, Amount = 0, DebitLimit = 100, Customer = customers[0] });
-            await shireBankDbContext.Accounts.AddAsync(new Account { AccountId = 2, Amount = 0, DebitLimit = 300, Customer = customers[1] });
-
-            await shireBankDbContext.SaveChangesAsync();
+            await shireBankDbContext.InitializeAccountTestDataAsync();
         }
-
 
         [Test]
         public async Task OpenAccountAsync_WhenAddNewAccount_ThenResultShouldBeValidAndNewAccountWillAppearOnTheDatabase()
@@ -82,6 +67,15 @@ namespace Repository.Test.Services.Implementations
             result.OperationFinisedWithSuccess.Should().BeTrue();
             shireBankDbContext.Accounts.Count().Should().Be(1);
             shireBankDbContext.Accounts.First().AccountId.Should().Be(1);
+        }
+
+        [Test]
+        public async Task CloseAccountAsync_WhenUserWantCloseAccountWithFundsOnIt_ThenResultShouldBeInvalid()
+        {
+            Result result = await _accountService.CloseAccountAsync(new CloseAccountRequestModel(1));
+
+            result.OperationFinisedWithSuccess.Should().BeFalse();
+            shireBankDbContext.Accounts.Count().Should().Be(2);
         }
 
         [Test]
