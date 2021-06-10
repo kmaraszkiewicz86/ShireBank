@@ -23,7 +23,10 @@ Project has 3 new project:
 5. I added a proxy service to join grpc services with an old \CustomerTest\Program.cs style
 6. I had to comment line from 164 to 168 on the CustomerTest.Program class. I haven't got more time to resolve that issue.
 7. I added in the Repository.Core.ShireBankDbContext on the line 23, a functionality to delete database. It was added to help user running the CustomerTest tests, 
-without delete sqlite database each time when user runs new tests from the CustomerTests project.
+	without delete sqlite database each time when user runs new tests from the CustomerTests project.
+8. I added Thread.Sleep in the CustomerTest.Program class on the line 172 (before running the inspector logic) to wait small amount of time to check if everyting works 
+	fine with a bigger amount of request to grpc server
+9. I added Thread.Sleep in the CustomerTest.Program class on the line 13 to help me debugging solution when I run solution with two running project.
 
 
 P.S. I will grateful for any tips how to improve this project and what things I can do better the I did in this project. Mainly I'd like to hear a feedback from inspector logic,
