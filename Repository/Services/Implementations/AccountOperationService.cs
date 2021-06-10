@@ -22,49 +22,50 @@ namespace Repository.Services.Implementations
             _accountHistoryService = accountHistoryService;
         }
 
-        private static object _locker = new object();
-
         public async Task<Result> DepositAsync(DepositRequestModel depositRequestModel)
         {
-            Account account = await GetAccountAsync(depositRequestModel.Account);
-
-            if (account == null)
-                return new Result(false);
-
-            lock (_locker)
+            using (var transaction = await _shireBankDbContext.Database.BeginTransactionAsync())
             {
+                Account account = await GetAccountAsync(depositRequestModel.Account);
+
+                if (account == null)
+                    return new Result(false);
+
                 account.Amount += depositRequestModel.Amount;
                 _shireBankDbContext.Update(account);
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine($"account.Amount: {account.Amount}");
-                Console.WriteLine("---------------------------------------------------------");
+
+                await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Deposit, account, depositRequestModel.Amount);
+
+                await _shireBankDbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return new Result(true);
             }
-
-            await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Deposit, account, depositRequestModel.Amount);
-
-            await _shireBankDbContext.SaveChangesAsync();
-
-            return new Result(true);
         }
 
         public async Task<ResultWithModel<float>> WithdrawAsync(WithdrawRequestModel withdrawRequestModel)
         {
-            Account account = await GetAccountAsync(withdrawRequestModel.Account);
+            using (var transaction = await _shireBankDbContext.Database.BeginTransactionAsync())
+            {
+                Account account = await GetAccountAsync(withdrawRequestModel.Account);
 
-            if (account == null)
-                return new ResultWithModel<float>();
+                if (account == null)
+                    return new ResultWithModel<float>();
 
-            float fundsToGet = GetFoundsToWithDraw(account, withdrawRequestModel);
+                float fundsToGet = GetFoundsToWithDraw(account, withdrawRequestModel);
 
-            account.Amount -= fundsToGet;
+                account.Amount -= fundsToGet;
 
-            _shireBankDbContext.Update(account);
+                _shireBankDbContext.Update(account);
 
-            await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Withdraw, account, fundsToGet);
+                await _accountHistoryService.AddHistoryAsync(_shireBankDbContext, AccountHistoryTypeOperation.Withdraw, account, fundsToGet);
 
-            await _shireBankDbContext.SaveChangesAsync();
+                await _shireBankDbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
 
-            return new ResultWithModel<float>(fundsToGet);
+                return new ResultWithModel<float>(fundsToGet);
+            }
         }
 
         private async Task<Account> GetAccountAsync(uint accountId)
