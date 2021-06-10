@@ -62,6 +62,9 @@ namespace ShireBank.Extensions
         public static IServiceCollection AddServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IAccountHistoryFormaterService, AccountHistoryFormaterService>();
+            serviceCollection.AddSingleton<IInspectorBlockerService, InspectorBlockerService>();
+            serviceCollection.AddSingleton<IMonitorActivityService, MonitorActivityService>();
+            serviceCollection.AddSingleton<IInspectorFasade, InspectorFasade>();
 
             return serviceCollection;
         }

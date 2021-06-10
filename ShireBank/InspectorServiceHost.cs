@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
+using Services.Services.Interfaces;
 using SharedInterface.Interfaces.InspectorInterface;
 using static SharedInterface.Interfaces.InspectorInterface.InspectorInterface;
 
@@ -7,19 +8,34 @@ namespace ShireBank
 {
     public class InspectorServiceHost : InspectorInterfaceBase
     {
-        public override async Task<Empty> FinishInspectionAsync(Empty request, ServerCallContext context)
+        private IInspectorBlockerService _inspectorBlockerService;
+
+        private IMonitorActivityService _monitorActivityService;
+
+        public InspectorServiceHost(IInspectorBlockerService inspectorBlockerService, 
+            IMonitorActivityService monitorActivityService)
         {
-            return new Empty();
+            _inspectorBlockerService = inspectorBlockerService;
+            _monitorActivityService = monitorActivityService;
         }
 
-        public override async Task<GetFullSummaryResponse> GetFullSummaryAsync(Empty request, ServerCallContext context)
+        public override Task<Empty> FinishInspectionAsync(Empty request, ServerCallContext context)
         {
-            return new GetFullSummaryResponse { Summary = string.Empty };
+            _inspectorBlockerService.ReleaseLock();
+
+            return Task.FromResult(new Empty());
         }
 
-        public override async Task<Empty> StartInspectionAsync(Empty request, ServerCallContext context)
+        public override Task<GetFullSummaryResponse> GetFullSummaryAsync(Empty request, ServerCallContext context)
         {
-            return new Empty();
+            return Task.FromResult(new GetFullSummaryResponse { Summary = _monitorActivityService.ActivityLoggerStringBuilder.ToString() });
+        }
+
+        public override Task<Empty> StartInspectionAsync(Empty request, ServerCallContext context)
+        {
+            _inspectorBlockerService.Block();
+
+            return Task.FromResult(new Empty());
         }
     }
 }

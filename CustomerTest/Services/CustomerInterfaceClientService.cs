@@ -5,11 +5,11 @@ using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
 
 namespace CustomerTest.Services
 {
-    public class CustomerService
+    public class CustomerInterfaceClientService
     {
         private readonly CustomerInterfaceClient _customerInterfaceClient;
 
-        public CustomerService(GrpcChannel channel)
+        public CustomerInterfaceClientService(GrpcChannel channel)
         {
             _customerInterfaceClient = new CustomerInterfaceClient(channel);
         }

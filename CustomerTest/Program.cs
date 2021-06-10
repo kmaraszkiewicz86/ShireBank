@@ -24,7 +24,7 @@ namespace CustomerTest
                 // Customer 1
                 new Thread(() =>
                    {
-                       var customer = new CustomerService(channel);
+                       var customer = new CustomerInterfaceClientService(channel);
 
                        Thread.Sleep(TimeSpan.FromSeconds(10));
 
@@ -63,7 +63,7 @@ namespace CustomerTest
                 // Customer 2
                 new Thread(() =>
                {
-                   var customer = new CustomerService(channel);
+                   var customer = new CustomerInterfaceClientService(channel);
 
                    var accountId = customer.OpenAccount("Barbara", "Tuk", 50.0f);
                    if (accountId == null)
@@ -117,7 +117,7 @@ namespace CustomerTest
                 // Customer 3
                 new Thread(() =>
                {
-                   var customer = new CustomerService(channel);
+                   var customer = new CustomerInterfaceClientService(channel);
 
                    var accountId = customer.OpenAccount("Gandalf", "Grey", 10000.0f);
                    if (accountId == null)
@@ -168,6 +168,15 @@ namespace CustomerTest
 
                    endOfWorkEvents[2].Set();
                }).Start();
+
+                var inspector = new InspectorInterfaceClientService(channel);
+
+                Thread.Sleep(500);
+
+                inspector.StartInspection();
+                inspector.GetFullSummary();
+                Console.ReadKey();
+                inspector.FinishInspection();
 
                 WaitHandle.WaitAll(endOfWorkEvents);
             }
