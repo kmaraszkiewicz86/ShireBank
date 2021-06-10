@@ -22,3 +22,9 @@ Project has 3 new project:
 4. I did some modification in a class \CustomerTest\Program.cs to work well with the Grpc service
 5. I added a proxy service to join grpc services with an old \CustomerTest\Program.cs style
 6. I had to comment line from 164 to 168 on the CustomerTest.Program class. I haven't got more time to resolve that issue.
+7. I added in the Repository.Core.ShireBankDbContext on the line 23, a functionality to delete database. It was added to help user running the CustomerTest tests, 
+without delete sqlite database each time when user runs new tests from the CustomerTests project.
+
+
+P.S. I will grateful for any tips how to improve this project and what things I can do better the I did in this project. Mainly I'd like to hear a feedback from inspector logic,
+I wonder if my idea is good, maybe I could do it in better way.

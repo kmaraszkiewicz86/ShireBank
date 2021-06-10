@@ -3,17 +3,18 @@ using System.Threading.Tasks;
 using Models.Entities;
 using Models.Models;
 using Repository.Services.Interfaces;
-using Services.Services.Interfaces;
+using Services.Services.Interfaces.Fasades;
+using Services.Services.Interfaces.Services;
 
-namespace Services.Services.Implementations
+namespace Services.Services.Implementations.Fasades
 {
-    public class AccountHistoryFasade : IAccountHistoryFasade
+    public sealed class AccountHistoryFasade : IAccountHistoryFasade
     {
         private readonly IAccountHistoryFormaterService _accountHistoryFormaterService;
 
         private readonly IAccountHistoryService _accountHistoryService;
 
-        public AccountHistoryFasade(IAccountHistoryFormaterService accountHistoryFormaterService, 
+        public AccountHistoryFasade(IAccountHistoryFormaterService accountHistoryFormaterService,
             IAccountHistoryService accountHistoryService)
         {
             _accountHistoryFormaterService = accountHistoryFormaterService;

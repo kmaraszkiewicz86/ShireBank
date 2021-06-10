@@ -7,8 +7,12 @@ using NLog.Extensions.Logging;
 using Repository.Core;
 using Repository.Services.Implementations;
 using Repository.Services.Interfaces;
-using Services.Services.Implementations;
-using Services.Services.Interfaces;
+using Services.Services.Implementations.Factories;
+using Services.Services.Implementations.Fasades;
+using Services.Services.Implementations.Services;
+using Services.Services.Interfaces.Factories;
+using Services.Services.Interfaces.Fasades;
+using Services.Services.Interfaces.Services;
 using ShireBank.Services.Implementations;
 using ShireBank.Services.Interfaces;
 using static SharedInterface.Interfaces.CustomInterface.CustomerInterface;
@@ -37,8 +41,8 @@ namespace ShireBank.Extensions
 
         public static IServiceCollection AddGrpcServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<CustomerInterfaceBase, CustomerServiceHost>();
-            serviceCollection.AddTransient<InspectorInterfaceBase, InspectorServiceHost>();
+            serviceCollection.AddTransient<CustomerInterfaceBase, CustomerInterfaceService>();
+            serviceCollection.AddTransient<InspectorInterfaceBase, InspectorInterfaceService>();
 
             serviceCollection.AddTransient<IServerRunnerService, ServerRunnerService>();
 
@@ -55,6 +59,13 @@ namespace ShireBank.Extensions
         public static IServiceCollection AddFasades(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IAccountHistoryFasade, AccountHistoryFasade>();
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddFactories(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<IDbServicesFactory, DbServicesFactory>();
 
             return serviceCollection;
         }

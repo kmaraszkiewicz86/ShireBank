@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Models.Enums;
 
-namespace Services.Services.Interfaces
+namespace Services.Services.Interfaces.Services
 {
     public interface IMonitorActivityService
     {

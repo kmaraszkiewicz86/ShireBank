@@ -4,7 +4,7 @@ using ShireBank.Services.Interfaces;
 
 namespace ShireBank.Services.Implementations
 {
-    public class LoggerService : ILoggerService
+    public sealed class LoggerService : ILoggerService
     {
         private readonly ILogger<LoggerService> _logger;
 

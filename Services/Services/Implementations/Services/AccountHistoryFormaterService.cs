@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Text;
 using Models.Entities;
-using Services.Services.Interfaces;
+using Services.Services.Interfaces.Services;
 
-namespace Services.Services.Implementations
+namespace Services.Services.Implementations.Services
 {
-    public class AccountHistoryFormaterService : IAccountHistoryFormaterService
+    public sealed class AccountHistoryFormaterService : IAccountHistoryFormaterService
     {
         private static int[] columnsWidth = new int[]
         {
-            5, 21, 16, 17, 35
+            3, 21, 16, 17, 33
         };
 
         public string FormatHistory(List<AccountHistory> accountHistories)
@@ -21,9 +21,9 @@ namespace Services.Services.Implementations
             var account = accountHistories.First().Account;
 
             StringBuilder readableText = new StringBuilder();
-            readableText.AppendLine($"=========================================================================================================");
+            readableText.AppendLine($"===========================================================================================================");
             readableText.AppendLine($"Account history for customer: {account.Customer.FirstName} {account.Customer.LastName}");
-            readableText.AppendLine($"=========================================================================================================");
+            readableText.AppendLine($"===========================================================================================================");
 
             readableText.AppendLine($"| {GenerateColumnText("No.", 0)} |" +
                 $"| {GenerateColumnText("Operation Data", 1)} | " +
@@ -31,7 +31,7 @@ namespace Services.Services.Implementations
                 $"{ GenerateColumnText("Amount of funds", 3)} | " +
                 $"{ GenerateColumnText("Amount of founds after operation", 4)} |");
 
-            readableText.AppendLine($"----------------------------------------------------------------------------------------------------------");
+            readableText.AppendLine($"-----------------------------------------------------------------------------------------------------------");
 
             int operationNumber = 1;
 

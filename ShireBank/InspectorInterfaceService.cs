@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
-using Services.Services.Interfaces;
+using Services.Services.Interfaces.Services;
 using SharedInterface.Interfaces.InspectorInterface;
 using static SharedInterface.Interfaces.InspectorInterface.InspectorInterface;
 
 namespace ShireBank
 {
-    public class InspectorServiceHost : InspectorInterfaceBase
+    public sealed class InspectorInterfaceService : InspectorInterfaceBase
     {
         private IInspectorBlockerService _inspectorBlockerService;
 
         private IMonitorActivityService _monitorActivityService;
 
-        public InspectorServiceHost(IInspectorBlockerService inspectorBlockerService, 
+        public InspectorInterfaceService(IInspectorBlockerService inspectorBlockerService, 
             IMonitorActivityService monitorActivityService)
         {
             _inspectorBlockerService = inspectorBlockerService;

@@ -15,13 +15,17 @@ namespace ShireBank.Services.Implementations
     {
         private readonly ILoggerService _loggerService;
 
-        private readonly IServiceProvider _serviceProvider;
+        private readonly CustomerInterfaceBase _customerInterfaceBase;
+
+        private readonly InspectorInterfaceBase _inspectorInterfaceBase;
 
         public ServerRunnerService(ILoggerService loggerService, 
-            IServiceProvider serviceProvider)
+            CustomerInterfaceBase customerInterfaceBase, 
+            InspectorInterfaceBase inspectorInterfaceBase)
         {
             _loggerService = loggerService;
-            _serviceProvider = serviceProvider;
+            _customerInterfaceBase = customerInterfaceBase;
+            _inspectorInterfaceBase = inspectorInterfaceBase;
         }
 
         public async Task RunAsync()
@@ -31,8 +35,8 @@ namespace ShireBank.Services.Implementations
                 Ports = { new ServerPort(Constants.BankBaseAddressUri.Host, Constants.BankBaseAddressUri.Port, ServerCredentials.Insecure) },
                 Services =
                 {
-                    CustomerInterface.BindService(_serviceProvider.GetService<CustomerInterfaceBase>()),
-                    InspectorInterface.BindService(_serviceProvider.GetService<InspectorInterfaceBase>())
+                    CustomerInterface.BindService(_customerInterfaceBase),
+                    InspectorInterface.BindService(_inspectorInterfaceBase)
                 }
                 
             };

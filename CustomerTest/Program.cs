@@ -177,6 +177,7 @@ namespace CustomerTest
                 inspector.StartInspection();
                 inspector.GetFullSummary();
 
+                Console.WriteLine("Press any key to close inspector...");
                 Console.ReadKey();
                 
                 inspector.FinishInspection();

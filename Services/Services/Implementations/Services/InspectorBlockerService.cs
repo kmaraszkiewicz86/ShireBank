@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Services.Services.Interfaces;
+﻿using System.Threading.Tasks;
+using Services.Services.Interfaces.Services;
 
-namespace Services.Services.Implementations
+namespace Services.Services.Implementations.Services
 {
-    public class InspectorBlockerService : IInspectorBlockerService
+    public sealed class InspectorBlockerService : IInspectorBlockerService
     {
         private bool _shouldWaitForSignal = false;
 

@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using System.Threading;
 using Models.Enums;
-using Services.Services.Interfaces;
+using Services.Services.Interfaces.Services;
 
-namespace Services.Services.Implementations
+namespace Services.Services.Implementations.Services
 {
-    public class MonitorActivityService : IMonitorActivityService
+    public sealed class MonitorActivityService : IMonitorActivityService
     {
         public StringBuilder ActivityLoggerStringBuilder { get; init; }
 

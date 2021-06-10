@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Models.Enums;
 
-namespace Services.Services.Interfaces
+namespace Services.Services.Interfaces.Fasades
 {
     public interface IInspectorFasade
     {

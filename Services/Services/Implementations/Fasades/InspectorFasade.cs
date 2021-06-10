@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Models.Enums;
-using Services.Services.Interfaces;
+using Services.Services.Interfaces.Fasades;
+using Services.Services.Interfaces.Services;
 
-namespace Services.Services.Implementations
+namespace Services.Services.Implementations.Fasades
 {
-    public class InspectorFasade : IInspectorFasade
+    public sealed class InspectorFasade : IInspectorFasade
     {
         private IInspectorBlockerService _inspectorBlockerService;
 
@@ -22,7 +23,7 @@ namespace Services.Services.Implementations
             await _inspectorBlockerService.WaitWhenInspectionIsActiveAsync();
 
             _monitorActivityService.AddUserActivity(customerActivityType, CustomerActivityPoint.Start, requestData);
-            
+
             TReturnModel result = await onWorkAsync();
 
             _monitorActivityService.AddUserActivity(customerActivityType, CustomerActivityPoint.End);

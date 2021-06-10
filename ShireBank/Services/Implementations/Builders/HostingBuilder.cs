@@ -6,7 +6,7 @@ using ShireBank.Extensions;
 
 namespace ShireBank.Services.Implementations.Builders
 {
-    public class HostingBuilder
+    public sealed class HostingBuilder
     {
         private IHostBuilder _hostingBuilder;
 
@@ -31,6 +31,7 @@ namespace ShireBank.Services.Implementations.Builders
                 .AddServices()
                 .AddFasades()
                 .AddLoggers()
+                .AddFactories()
                 .InitializeNlog(configuration);
         }
     }
