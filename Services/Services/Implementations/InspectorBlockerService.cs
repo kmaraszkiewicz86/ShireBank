@@ -1,30 +1,30 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Services.Services.Interfaces;
 
 namespace Services.Services.Implementations
 {
     public class InspectorBlockerService : IInspectorBlockerService
     {
-        private ManualResetEvent manualResetEvent;
-
-        public InspectorBlockerService()
-        {
-            manualResetEvent = new ManualResetEvent(true);
-        }
+        private bool _shouldWaitForSignal = false;
 
         public void Block()
         {
-            manualResetEvent.Reset();
+            _shouldWaitForSignal = true;
         }
 
         public void ReleaseLock()
         {
-            manualResetEvent.Set();
+            _shouldWaitForSignal = false;
         }
 
-        public void WaitWhenInspectionIsActive()
+        public async Task WaitWhenInspectionIsActiveAsync()
         {
-            manualResetEvent.WaitOne();
+            while (_shouldWaitForSignal)
+            {
+                await Task.Delay(10);
+            }
         }
     }
 }

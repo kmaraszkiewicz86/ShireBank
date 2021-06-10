@@ -19,7 +19,7 @@ namespace Services.Services.Implementations
 
         public async Task<TReturnModel> DoActionAsync<TReturnModel>(Func<Task<TReturnModel>> onWorkAsync, CustomerActivityType customerActivityType, object requestData)
         {
-            _inspectorBlockerService.WaitWhenInspectionIsActive();
+            await _inspectorBlockerService.WaitWhenInspectionIsActiveAsync();
 
             _monitorActivityService.AddUserActivity(customerActivityType, CustomerActivityPoint.Start, requestData);
             
@@ -28,7 +28,6 @@ namespace Services.Services.Implementations
             _monitorActivityService.AddUserActivity(customerActivityType, CustomerActivityPoint.End);
 
             return result;
-
         }
     }
 }

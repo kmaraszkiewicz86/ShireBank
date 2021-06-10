@@ -17,6 +17,8 @@ namespace CustomerTest
                 
             }))
             {
+                var inspector = new InspectorInterfaceClientService(channel);
+
                 ManualResetEvent[] endOfWorkEvents = { new ManualResetEvent(false), new ManualResetEvent(false), new ManualResetEvent(false) };
 
                 var historyPrintLock = new object();
@@ -169,14 +171,16 @@ namespace CustomerTest
                    endOfWorkEvents[2].Set();
                }).Start();
 
-                var inspector = new InspectorInterfaceClientService(channel);
-
                 Thread.Sleep(500);
 
+                Console.WriteLine("Inspector started! All customer operation blocked");
                 inspector.StartInspection();
                 inspector.GetFullSummary();
+
                 Console.ReadKey();
+                
                 inspector.FinishInspection();
+                Console.WriteLine("Inspector ended! All customer operation released!");
 
                 WaitHandle.WaitAll(endOfWorkEvents);
             }

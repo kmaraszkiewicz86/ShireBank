@@ -1,9 +1,11 @@
-﻿namespace Services.Services.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace Services.Services.Interfaces
 {
     public interface IInspectorBlockerService
     {
         void Block();
         void ReleaseLock();
-        void WaitWhenInspectionIsActive();
+        Task WaitWhenInspectionIsActiveAsync();
     }
 }
