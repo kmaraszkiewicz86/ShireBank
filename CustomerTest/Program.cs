@@ -179,7 +179,7 @@ namespace CustomerTest
 
                 Console.WriteLine("Press any key to close inspector...");
                 Console.ReadKey();
-                
+
                 inspector.FinishInspection();
                 Console.WriteLine("Inspector ended! All customer operation released!");
 
