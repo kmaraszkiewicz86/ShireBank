@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Models;
@@ -35,7 +34,7 @@ namespace Repository.Services.Implementations
 
         public async Task<Result> CloseAccountAsync(CloseAccountRequestModel closeAccountRequestModel)
         {
-            Account accountToRemove = _shireBankDbContext.Accounts.FirstOrDefault(a => a.AccountId == closeAccountRequestModel.Account);
+            Account accountToRemove = await _shireBankDbContext.Accounts.FirstOrDefaultAsync(a => a.AccountId == closeAccountRequestModel.Account);
 
             if (accountToRemove == null || accountToRemove.Amount != 0)
                 return new Result(false);
