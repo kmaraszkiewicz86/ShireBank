@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Models;
 using Repository.Core;
@@ -18,7 +19,7 @@ namespace Repository.Services.Implementations
 
         public async Task<ResultWithModel<uint>> OpenAccountAsync(OpenAccountRequestModel openAccountRequestModel)
         {
-            Customer customer = GetCustomer(openAccountRequestModel);
+            Customer customer = await GetCustomerAsync(openAccountRequestModel);
 
             if (customer != null)
                 return new ResultWithModel<uint>();
@@ -46,9 +47,9 @@ namespace Repository.Services.Implementations
             return new Result(true);
         }
 
-        private Customer GetCustomer(OpenAccountRequestModel openAccountRequestModel)
+        private async Task<Customer> GetCustomerAsync(OpenAccountRequestModel openAccountRequestModel)
         {
-            return _shireBankDbContext.Customers.FirstOrDefault(
+            return await _shireBankDbContext.Customers.FirstOrDefaultAsync(
                 c => c.FirstName == openAccountRequestModel.FirstName && c.LastName == openAccountRequestModel.LastName);
         }
 
