@@ -16,6 +16,7 @@ namespace Services.Services.Implementations.Services
 
         public void Block()
         {
+            _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
